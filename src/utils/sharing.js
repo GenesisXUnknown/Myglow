@@ -380,3 +380,32 @@ export const generateShareText = (seasonData, userName = null) => {
     `Seasonal color analysis = game changer! ${name} ${verb} a ${seasonData.name} ✨ GlowMatch.app`
   ]
 }
+
+/**
+ * Share directly to specific social platforms
+ */
+export const shareToFacebook = (url, text) => {
+  const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`
+  window.open(shareUrl, '_blank', 'width=600,height=400')
+}
+
+export const shareToTwitter = (url, text) => {
+  const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`
+  window.open(shareUrl, '_blank', 'width=600,height=400')
+}
+
+export const shareToPinterest = (url, imageUrl, description) => {
+  const shareUrl = `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(url)}&media=${encodeURIComponent(imageUrl)}&description=${encodeURIComponent(description)}`
+  window.open(shareUrl, '_blank', 'width=600,height=400')
+}
+
+export const shareToWhatsApp = (text, url) => {
+  const message = `${text} ${url}`
+  const shareUrl = `https://wa.me/?text=${encodeURIComponent(message)}`
+  window.open(shareUrl, '_blank')
+}
+
+export const shareViaEmail = (subject, body, url) => {
+  const mailtoUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body + '\n\n' + url)}`
+  window.location.href = mailtoUrl
+}

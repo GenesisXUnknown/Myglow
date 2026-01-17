@@ -9,7 +9,11 @@ import {
   shareToSocial,
   downloadImage,
   generateShareText,
-  copyShareLink
+  copyShareLink,
+  shareToFacebook,
+  shareToTwitter,
+  shareToWhatsApp,
+  shareViaEmail
 } from '../utils/sharing'
 
 const ShareScreen = () => {
@@ -179,6 +183,45 @@ const ShareScreen = () => {
                   >
                     💾 Download
                   </Button>
+                </div>
+
+                {/* Social Share Buttons */}
+                <div className="mt-4">
+                  <p className="text-sm text-gray-600 mb-3 font-medium">Or share directly to:</p>
+                  <div className="grid grid-cols-4 gap-2">
+                    <button
+                      onClick={() => shareToFacebook(`https://glowmatch.app?ref=${referralCode}`, shareTexts[selectedTextIndex])}
+                      className="flex flex-col items-center gap-1 p-3 rounded-lg bg-blue-50 hover:bg-blue-100 transition-colors"
+                      title="Share to Facebook"
+                    >
+                      <span className="text-2xl">📘</span>
+                      <span className="text-xs text-blue-700">Facebook</span>
+                    </button>
+                    <button
+                      onClick={() => shareToTwitter(`https://glowmatch.app?ref=${referralCode}`, shareTexts[selectedTextIndex])}
+                      className="flex flex-col items-center gap-1 p-3 rounded-lg bg-sky-50 hover:bg-sky-100 transition-colors"
+                      title="Share to Twitter"
+                    >
+                      <span className="text-2xl">🐦</span>
+                      <span className="text-xs text-sky-700">Twitter</span>
+                    </button>
+                    <button
+                      onClick={() => shareToWhatsApp(shareTexts[selectedTextIndex], `https://glowmatch.app?ref=${referralCode}`)}
+                      className="flex flex-col items-center gap-1 p-3 rounded-lg bg-green-50 hover:bg-green-100 transition-colors"
+                      title="Share to WhatsApp"
+                    >
+                      <span className="text-2xl">💬</span>
+                      <span className="text-xs text-green-700">WhatsApp</span>
+                    </button>
+                    <button
+                      onClick={() => shareViaEmail('Check out my GlowMatch results!', shareTexts[selectedTextIndex], `https://glowmatch.app?ref=${referralCode}`)}
+                      className="flex flex-col items-center gap-1 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
+                      title="Share via Email"
+                    >
+                      <span className="text-2xl">✉️</span>
+                      <span className="text-xs text-gray-700">Email</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             ) : (

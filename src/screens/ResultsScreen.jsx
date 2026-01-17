@@ -2,11 +2,18 @@ import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Container, Button, Card, PageHeader, Badge, ColorSwatch } from '../components/UI'
 import useStore from '../store'
+import { getProductSearchUrl, trackProductClick } from '../utils/productLinks'
 
 const ResultsScreen = () => {
   const navigate = useNavigate()
   const { getCurrentSeasonData } = useStore()
   const seasonData = getCurrentSeasonData()
+
+  const handleShopClick = (productType, colorName) => {
+    const urls = getProductSearchUrl(colorName, productType)
+    trackProductClick(productType, colorName, 'sephora')
+    window.open(urls.sephora, '_blank')
+  }
 
   if (!seasonData) {
     return (
@@ -118,6 +125,12 @@ const ResultsScreen = () => {
               <div>
                 <h4 className="font-semibold text-primary-700 mb-3 flex items-center gap-2">
                   <span>💋</span> Lips
+                  <button
+                    onClick={() => handleShopClick('lipstick', seasonData.name)}
+                    className="ml-auto text-xs bg-gradient-to-r from-primary-500 to-secondary-500 text-white px-3 py-1 rounded-full hover:shadow-lg transition-all"
+                  >
+                    🛍️ Shop Lips
+                  </button>
                 </h4>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {seasonData.makeup.lips.map((item, idx) => (
@@ -126,6 +139,12 @@ const ResultsScreen = () => {
                       <Badge variant="secondary" className="mt-2 text-xs">
                         {item.finish}
                       </Badge>
+                      <button
+                        onClick={() => handleShopClick('lipstick', item.name)}
+                        className="mt-2 text-xs text-primary-600 hover:text-primary-800 font-medium"
+                      >
+                        Find this color →
+                      </button>
                     </div>
                   ))}
                 </div>
@@ -135,6 +154,12 @@ const ResultsScreen = () => {
               <div>
                 <h4 className="font-semibold text-primary-700 mb-3 flex items-center gap-2">
                   <span>👁️</span> Eyes
+                  <button
+                    onClick={() => handleShopClick('eyeshadow', seasonData.name)}
+                    className="ml-auto text-xs bg-gradient-to-r from-primary-500 to-secondary-500 text-white px-3 py-1 rounded-full hover:shadow-lg transition-all"
+                  >
+                    🛍️ Shop Eyes
+                  </button>
                 </h4>
                 <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
                   {seasonData.makeup.eyes.map((item, idx) => (
@@ -143,6 +168,12 @@ const ResultsScreen = () => {
                       <Badge variant="secondary" className="mt-2 text-xs">
                         {item.finish}
                       </Badge>
+                      <button
+                        onClick={() => handleShopClick('eyeshadow', item.name)}
+                        className="mt-2 text-xs text-primary-600 hover:text-primary-800 font-medium"
+                      >
+                        Find this color →
+                      </button>
                     </div>
                   ))}
                 </div>
@@ -152,6 +183,12 @@ const ResultsScreen = () => {
               <div>
                 <h4 className="font-semibold text-primary-700 mb-3 flex items-center gap-2">
                   <span>✨</span> Cheeks
+                  <button
+                    onClick={() => handleShopClick('blush', seasonData.name)}
+                    className="ml-auto text-xs bg-gradient-to-r from-primary-500 to-secondary-500 text-white px-3 py-1 rounded-full hover:shadow-lg transition-all"
+                  >
+                    🛍️ Shop Blush
+                  </button>
                 </h4>
                 <div className="grid grid-cols-3 gap-3">
                   {seasonData.makeup.cheeks.map((item, idx) => (
@@ -160,6 +197,12 @@ const ResultsScreen = () => {
                       <Badge variant="secondary" className="mt-2 text-xs">
                         {item.finish}
                       </Badge>
+                      <button
+                        onClick={() => handleShopClick('blush', item.name)}
+                        className="mt-2 text-xs text-primary-600 hover:text-primary-800 font-medium"
+                      >
+                        Find this color →
+                      </button>
                     </div>
                   ))}
                 </div>
