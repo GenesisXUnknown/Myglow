@@ -7,6 +7,10 @@ import TryOnScreen from './screens/TryOnScreen'
 import LooksScreen from './screens/LooksScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import PremiumScreen from './screens/PremiumScreen'
+import ShareScreen from './screens/ShareScreen'
+import CompareScreen from './screens/CompareScreen'
+import LookBuilderScreen from './screens/LookBuilderScreen'
+import ReferralScreen from './screens/ReferralScreen'
 
 function App() {
   return (
@@ -20,6 +24,10 @@ function App() {
           <Route path="/looks" element={<LooksScreen />} />
           <Route path="/profile" element={<ProfileScreen />} />
           <Route path="/premium" element={<PremiumScreen />} />
+          <Route path="/share" element={<ShareScreen />} />
+          <Route path="/compare" element={<CompareScreen />} />
+          <Route path="/look-builder" element={<LookBuilderScreen />} />
+          <Route path="/referral" element={<ReferralScreen />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         <BottomNav />

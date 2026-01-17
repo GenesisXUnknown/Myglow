@@ -31,6 +31,11 @@ const ResultsScreen = () => {
         <PageHeader
           title="Your Color Analysis"
           subtitle="Personalized recommendations for your unique coloring"
+          action={
+            <Button onClick={() => navigate('/share')} variant="secondary" className="text-sm">
+              📱 Share
+            </Button>
+          }
         />
 
         {/* Season Card */}

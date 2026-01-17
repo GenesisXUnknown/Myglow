@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Container, Button, Card, Badge } from '../components/UI'
+import SocialFeed from '../components/SocialFeed'
+import DailyChallenges from '../components/DailyChallenges'
 import useStore from '../store'
 
 const HomeScreen = () => {
@@ -62,7 +64,7 @@ const HomeScreen = () => {
         )}
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -73,34 +75,107 @@ const HomeScreen = () => {
               onClick={() => navigate('/analyze')}
               className="text-center cursor-pointer hover:scale-105"
             >
-              <div className="text-5xl mb-3">📸</div>
-              <h3 className="text-xl font-bold mb-2">
-                {currentSeason ? 'Analyze Again' : 'Find Your Colors'}
+              <div className="text-4xl mb-2">📸</div>
+              <h3 className="text-sm font-bold">
+                {currentSeason ? 'Analyze Again' : 'Find Colors'}
               </h3>
-              <p className="text-gray-600 text-sm">
-                Upload a selfie to discover your seasonal color type
-              </p>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.15 }}
+          >
+            <Card
+              glass
+              onClick={() => navigate('/compare')}
+              className="text-center cursor-pointer hover:scale-105"
+            >
+              <div className="text-4xl mb-2">👥</div>
+              <h3 className="text-sm font-bold">Compare</h3>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <Card
+              glass
+              onClick={() => navigate('/look-builder')}
+              className="text-center cursor-pointer hover:scale-105"
+            >
+              <div className="text-4xl mb-2">🎨</div>
+              <h3 className="text-sm font-bold">Create Look</h3>
             </Card>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
+            transition={{ delay: 0.25 }}
           >
             <Card
               glass
-              onClick={() => navigate('/try-on')}
+              onClick={() => navigate('/share')}
               className="text-center cursor-pointer hover:scale-105"
             >
-              <div className="text-5xl mb-3">💄</div>
-              <h3 className="text-xl font-bold mb-2">Virtual Try-On</h3>
-              <p className="text-gray-600 text-sm">
-                Try on different makeup colors instantly
-              </p>
+              <div className="text-4xl mb-2">📱</div>
+              <h3 className="text-sm font-bold">Share</h3>
             </Card>
           </motion.div>
         </div>
+
+        {/* Daily Challenges */}
+        {currentSeason && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="mb-8"
+          >
+            <DailyChallenges />
+          </motion.div>
+        )}
+
+        {/* Social Feed */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35 }}
+          className="mb-8"
+        >
+          <SocialFeed limit={6} />
+        </motion.div>
+
+        {/* Referral CTA */}
+        {currentSeason && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="mb-8"
+          >
+            <Card
+              glass
+              onClick={() => navigate('/referral')}
+              className="cursor-pointer hover:scale-102 transition-transform"
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-5xl">🎁</div>
+                <div className="flex-1">
+                  <h3 className="font-bold text-lg mb-1">Invite Friends, Get Rewards!</h3>
+                  <p className="text-sm text-gray-600">
+                    Share GlowMatch and unlock bonus try-ons & premium access
+                  </p>
+                </div>
+                <Badge variant="success">Free rewards!</Badge>
+              </div>
+            </Card>
+          </motion.div>
+        )}
 
         {/* Features */}
         <motion.div

@@ -766,11 +766,26 @@ const useStore = create(
       currentSeason: null,
       userPhoto: null,
       savedLooks: [],
+      createdLooks: [], // For look builder
+      userName: null,
 
       // Freemium model
       tryOnCount: 0,
       isPremium: false,
       maxFreeTryOns: 5,
+
+      // Viral features
+      achievements: [],
+      referralCode: null,
+      referredBy: null,
+      referralCount: 0,
+      friendComparisons: [],
+      dailyChallenges: [],
+      lastChallengeDate: null,
+      challengeStreak: 0,
+      shareCount: 0,
+      celebrityMatch: null,
+      chatHistory: [],
 
       // Actions
       setCurrentSeason: (seasonId) => set({ currentSeason: seasonId }),
@@ -814,6 +829,117 @@ const useStore = create(
       getAllSeasons: () => Object.values(seasonalData),
 
       getSeasonById: (id) => seasonalData[id],
+
+      // Viral feature actions
+      setUserName: (name) => set({ userName: name }),
+
+      // Achievements
+      unlockAchievement: (achievementId) => {
+        const achievements = get().achievements
+        if (!achievements.includes(achievementId)) {
+          set({ achievements: [...achievements, achievementId] })
+        }
+      },
+
+      hasAchievement: (achievementId) => {
+        return get().achievements.includes(achievementId)
+      },
+
+      // Referrals
+      generateReferralCode: () => {
+        const code = Math.random().toString(36).substring(2, 8).toUpperCase()
+        set({ referralCode: code })
+        return code
+      },
+
+      setReferredBy: (code) => set({ referredBy: code }),
+
+      incrementReferralCount: () => {
+        const count = get().referralCount
+        set({ referralCount: count + 1 })
+
+        // Unlock achievement at milestones
+        if (count + 1 === 1) get().unlockAchievement('first-referral')
+        if (count + 1 === 5) get().unlockAchievement('influencer-5')
+        if (count + 1 === 10) get().unlockAchievement('influencer-10')
+      },
+
+      // Friend comparisons
+      saveFriendComparison: (comparison) => {
+        const comparisons = get().friendComparisons
+        set({ friendComparisons: [...comparisons, { ...comparison, id: Date.now() }] })
+      },
+
+      // Look builder
+      saveCreatedLook: (look) => {
+        const looks = get().createdLooks
+        set({ createdLooks: [...looks, { ...look, id: Date.now(), createdAt: new Date().toISOString() }] })
+      },
+
+      deleteCreatedLook: (lookId) => {
+        const looks = get().createdLooks
+        set({ createdLooks: looks.filter(l => l.id !== lookId) })
+      },
+
+      // Daily challenges
+      setDailyChallenges: (challenges) => {
+        const today = new Date().toDateString()
+        const lastDate = get().lastChallengeDate
+
+        // Check if it's a new day
+        if (lastDate !== today) {
+          set({
+            dailyChallenges: challenges,
+            lastChallengeDate: today
+          })
+        }
+      },
+
+      completeChallenge: (challengeId) => {
+        const challenges = get().dailyChallenges
+        const updated = challenges.map(c =>
+          c.id === challengeId ? { ...c, completed: true } : c
+        )
+        set({ dailyChallenges: updated })
+
+        // Update streak
+        const allCompleted = updated.every(c => c.completed)
+        if (allCompleted) {
+          const streak = get().challengeStreak
+          set({ challengeStreak: streak + 1 })
+
+          // Unlock achievements
+          if (streak + 1 === 7) get().unlockAchievement('week-streak')
+          if (streak + 1 === 30) get().unlockAchievement('month-streak')
+        }
+      },
+
+      // Sharing
+      incrementShareCount: () => {
+        const count = get().shareCount
+        set({ shareCount: count + 1 })
+
+        // Unlock achievements
+        if (count + 1 === 1) get().unlockAchievement('first-share')
+        if (count + 1 === 5) get().unlockAchievement('social-butterfly')
+        if (count + 1 === 10) get().unlockAchievement('influencer')
+
+        // Reward with free try-ons
+        if (count + 1 === 1) {
+          set({ tryOnCount: Math.max(0, get().tryOnCount - 5) })
+        }
+      },
+
+      // Celebrity match
+      setCelebrityMatch: (celebrity) => set({ celebrityMatch: celebrity }),
+
+      // Chat
+      addChatMessage: (message) => {
+        const history = get().chatHistory
+        set({ chatHistory: [...history, { ...message, timestamp: Date.now() }] })
+      },
+
+      clearChatHistory: () => set({ chatHistory: [] }),
     }),
     {
       name: 'glowmatch-storage',
