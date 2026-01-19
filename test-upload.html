@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Photo Upload Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 50px;
+            text-align: center;
+        }
+        .btn {
+            background: linear-gradient(135deg, #D946A6 0%, #9B59B6 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-block;
+            margin: 10px;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        #preview {
+            margin-top: 20px;
+            max-width: 400px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>GlowMatch Photo Upload Test</h1>
+
+    <h2>Method 1: Label (what we're using)</h2>
+    <label for="upload1" class="btn">
+        📸 Click to Upload (Method 1)
+        <input id="upload1" type="file" accept="image/*" style="display: none;" onchange="showImage(this)">
+    </label>
+
+    <br><br>
+
+    <h2>Method 2: Direct Button Click</h2>
+    <button class="btn" onclick="document.getElementById('upload2').click()">
+        📸 Click to Upload (Method 2)
+    </button>
+    <input id="upload2" type="file" accept="image/*" style="display: none;" onchange="showImage(this)">
+
+    <br><br>
+
+    <h2>Method 3: Visible Input</h2>
+    <input id="upload3" type="file" accept="image/*" onchange="showImage(this)">
+
+    <br><br>
+
+    <div id="result"></div>
+    <img id="preview" style="display: none;">
+
+    <script>
+        function showImage(input) {
+            const result = document.getElementById('result');
+            const preview = document.getElementById('preview');
+
+            if (input.files && input.files[0]) {
+                result.innerHTML = '✅ File selected: ' + input.files[0].name;
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                result.innerHTML = '❌ No file selected';
+            }
+        }
+    </script>
+</body>
+</html>
