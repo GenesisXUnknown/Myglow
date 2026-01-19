@@ -103,20 +103,18 @@ const AnalyzeScreen = () => {
                     Choose a clear photo of your face in natural lighting
                   </p>
 
-                  <input
-                    id="image-upload"
-                    type="file"
-                    accept="image/*"
-                    capture="environment"
-                    onChange={handleImageSelect}
-                    className="hidden"
-                  />
-                  <Button
-                    variant="primary"
-                    onClick={() => document.getElementById('image-upload').click()}
-                  >
-                    📸 Choose Photo
-                  </Button>
+                  <label htmlFor="image-upload" className="inline-block cursor-pointer">
+                    <input
+                      id="image-upload"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageSelect}
+                      className="hidden"
+                    />
+                    <span className="inline-block font-semibold px-6 py-3 rounded-full transition-all duration-300 bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg hover:shadow-xl hover:scale-105 active:scale-95">
+                      📸 Choose Photo
+                    </span>
+                  </label>
                 </motion.div>
               ) : (
                 <motion.div
